@@ -1,4 +1,4 @@
-package services
+package creamcore
 
 // BaseServiceError describe how error object is
 type BaseServiceError struct {

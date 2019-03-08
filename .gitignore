@@ -1,5 +1,6 @@
 # App files and folders
 coverage
+creamcore.sqlite3
 vendor
 
 # OS and IDE files and folders

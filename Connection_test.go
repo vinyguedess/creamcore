@@ -1,13 +1,11 @@
-package database_test
+package creamcore_test
 
 import (
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/jinzhu/gorm"
-
-	"github.com/tembici/temapi-stations-list/database"
+	"github.com/stretchr/testify/assert"
+	creamcore "github.com/vinyguedess/cream-core"
 )
 
 type UserTest struct {
@@ -20,7 +18,7 @@ func (m *UserTest) TableName() string {
 }
 
 func TestConnectingToDatabase(t *testing.T) {
-	conn := database.GetDB()
+	conn := creamcore.GetConnection()
 	conn.CreateTable(&UserTest{})
 
 	assert.True(t, conn.HasTable("users"))

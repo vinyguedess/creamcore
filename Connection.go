@@ -1,4 +1,4 @@
-package database
+package creamcore
 
 import (
 	"github.com/jinzhu/gorm"

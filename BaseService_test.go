@@ -1,10 +1,10 @@
-package services_test
+package creamcore_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	creamcore "github.com/vinyguedess/cream-core/services"
+	creamcore "github.com/vinyguedess/cream-core"
 )
 
 func TestHasErrorWithErrors(t *testing.T) {
