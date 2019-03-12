@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	creamcore "github.com/vinyguedess/cream-core"
+	"github.com/vinyguedess/creamcore"
 )
 
 func TestHasErrorWithErrors(t *testing.T) {

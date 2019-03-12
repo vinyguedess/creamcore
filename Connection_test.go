@@ -5,7 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
-	creamcore "github.com/vinyguedess/cream-core"
+	"github.com/vinyguedess/creamcore"
 )
 
 type UserTest struct {
