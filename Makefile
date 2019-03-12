@@ -7,5 +7,5 @@ install:
 
 test:
 	@mkdir -p coverage
-	@go test -v ./... -coverprofile=coverage/coverage.out
-	@go tool cover -html=coverage/coverage.out -o coverage/index.htm
+	@go test -v ./... -coverprofile=c.out
+	@go tool cover -html=c.out -o coverage/index.html
