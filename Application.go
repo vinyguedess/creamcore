@@ -1,6 +1,8 @@
 package creamcore
 
 import (
+	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -12,7 +14,15 @@ import (
 type MuxRequestHandler func(http.ResponseWriter, *http.Request)
 
 // RequestHandler defines CReaM Request Handler typo
-type RequestHandler func(*http.Request) (int, string)
+type RequestHandler func(Request) (int, string)
+
+// Request is the HTTP request for handler
+type Request struct {
+	URL    string
+	Method string
+	Header http.Header
+	Body   io.ReadCloser
+}
 
 // NewApplication is a Singleton responsible of returning Application instance
 func NewApplication(name string) *Application {
@@ -51,9 +61,18 @@ func (a *Application) init(name string) {
 	a.Router = mux.NewRouter()
 }
 
+func (a *Application) parseRequest(request *http.Request) Request {
+	return Request{
+		URL:    fmt.Sprintf("%s/%s", request.URL.Host, request.URL.Path),
+		Method: request.Method,
+		Header: request.Header,
+		Body:   request.Body,
+	}
+}
+
 func (a *Application) parseResponse(handler RequestHandler) MuxRequestHandler {
 	return func(response http.ResponseWriter, request *http.Request) {
-		handlerStatusCode, handlerResponse := handler(request)
+		handlerStatusCode, handlerResponse := handler(a.parseRequest(request))
 
 		response.WriteHeader(handlerStatusCode)
 		response.Write([]byte(handlerResponse))

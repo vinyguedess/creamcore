@@ -12,7 +12,7 @@ import (
 
 func TestSimpleHandler(t *testing.T) {
 	app := creamcore.NewApplication("Simple Handler Test")
-	app.Register("/", func(request *http.Request) (int, string) {
+	app.Register("/", func(creamcore.Request) (int, string) {
 		return http.StatusOK, "Testing"
 	}, "GET")
 
