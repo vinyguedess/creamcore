@@ -12,9 +12,9 @@ import (
 
 func TestSimpleHandler(t *testing.T) {
 	app := creamcore.NewApplication("Simple Handler Test")
-	app.Register("GET", "/", func(response http.ResponseWriter, request *http.Request) {
-		response.Write([]byte("Testing"))
-	})
+	app.Register("/", func(request *http.Request) (int, string) {
+		return http.StatusOK, "Testing"
+	}, "GET")
 
 	request := httptest.NewRequest(http.MethodGet, "/", nil)
 	recorder := httptest.NewRecorder()
