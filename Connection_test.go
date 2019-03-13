@@ -1,7 +1,10 @@
 package creamcore_test
 
 import (
+	"os"
 	"testing"
+
+	"github.com/joho/godotenv"
 
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/assert"
@@ -18,11 +21,26 @@ func (m *UserTest) TableName() string {
 }
 
 func TestConnectingToDatabase(t *testing.T) {
+	godotenv.Load()
+
 	conn := creamcore.GetConnection()
 	conn.DropTableIfExists(&UserTest{})
 	conn.CreateTable(&UserTest{})
 
 	assert.True(t, conn.HasTable("users"))
+}
+
+func TestConnectingToDatabaseErrorIfWrongAuthentication(t *testing.T) {
+	creamcore.DestroyConnection()
+
+	os.Setenv("DB_DRIVER", "mysql")
+	os.Setenv("DB_HOST", "127.0.0.2")
+	os.Setenv("DB_PORT", "3306")
+	os.Setenv("DB_NAME", "unknow_database")
+
+	assert.Panics(t, func() {
+		creamcore.GetConnection()
+	})
 }
 
 func TestConnectionAuthGetDriverSqlite(t *testing.T) {

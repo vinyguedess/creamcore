@@ -27,6 +27,7 @@ func NewApplication(name string) *Application {
 type Application struct {
 	Name   string
 	Router *mux.Router
+	Server *http.Server
 }
 
 // Register is the method responsible of registering middlewares
@@ -37,8 +38,12 @@ func (a *Application) Register(route string, handler RequestHandler, method ...s
 
 // Run is the method responsible of  starting up the application server
 func (a *Application) Run(port int) {
-	server := http.ListenAndServe(":"+strconv.Itoa(port), a.Router)
-	log.Fatal(server)
+	a.Server = &http.Server{
+		Addr:    ":" + strconv.Itoa(port),
+		Handler: a.Router,
+	}
+	a.Server.ListenAndServe()
+	log.Fatal(a.Server)
 }
 
 func (a *Application) init(name string) {

@@ -6,7 +6,6 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite" // Imports SQLite parser
-	"github.com/joho/godotenv"
 )
 
 // ConnectionAuth holds and treats database connection
@@ -42,7 +41,6 @@ func (auth *ConnectionAuth) GetConnString() string {
 var conn *gorm.DB
 
 func makeConnection() {
-	godotenv.Load()
 	port, _ := strconv.ParseInt(os.Getenv("DB_PORT"), 10, 0)
 	auth := ConnectionAuth{
 		Driver: os.Getenv("DB_DRIVER"),
@@ -52,6 +50,7 @@ func makeConnection() {
 		User:   os.Getenv("DB_USER"),
 		Pass:   os.Getenv("DB_PASS"),
 	}
+
 	db, err := gorm.Open(auth.GetDriver(), auth.GetConnString())
 	if err != nil {
 		panic(err)
@@ -68,4 +67,12 @@ func GetConnection() *gorm.DB {
 	}
 
 	return conn
+}
+
+// DestroyConnection is responsible of destroying connection to database
+func DestroyConnection() {
+	if conn != nil {
+		conn.Close()
+	}
+	conn = nil
 }
